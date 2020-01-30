@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <atom:link href="https://bastien.libersa.fr/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>https://bastien.libersa.fr/blog/</link>
+    <description></description>
+    <pubDate>Thu, 30 Jan 2020 11:56:19 +0100</pubDate>
+    
+      <item>
+        <title>Your Time To First Byte</title>
+        <link>https://bastien.libersa.fr/blog/2019/06/14/your-time-to-first-byte.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2019/06/14/your-time-to-first-byte.html</guid>
+        <description>&lt;p&gt;In this post, I’ll explain why I consider that increasing your Time To First Byte (TTFB) is the right thing to do.&lt;/p&gt;
+
+&lt;p&gt;While reducing the TTFB is obviously a goal shared by anyone typing on a keyboard for a living, I’ll focus on the opposite. Yes, you got it, this post won’t be about Web development.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;What I call TTFB in my daily life is the first time I got hit by a byte after awakening.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You can be hit by a byte from a phone, a watch, a laptop, or any other connected device. While this isn’t painful and a really short TTFB is how most people live with (according to an &lt;a href=&quot;https://fr.slideshare.net/jeffrufino/idc-study-mobile-and-social-connectiveness&quot;&gt;old study by IDC Research&lt;/a&gt;, 80 percent of all respondents reach for their phone within the first 15 minutes of waking up), I actually try to get mine as long as possible.&lt;/p&gt;
+
+&lt;p&gt;Here are my main reasons:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;It has the power to destroy your morning routine&lt;/b&gt;. If you check your mails and discover that you got tons of error reports, this will get the priority over everything you’re used to do before work. And your whole day will just be a race against time.&lt;/li&gt;
+  &lt;li&gt;&lt;b&gt;It prevents you from listening to yourself&lt;/b&gt;. Questions such &lt;i&gt;“How am I feeling? What went wrong yesterday? What could I achieve today?”&lt;/i&gt; are replaced in your brain by &lt;i&gt;“Who emailed me tonight?”&lt;/i&gt;. Doesn’t sound great for your
+mental health, right?&lt;/li&gt;
+  &lt;li&gt;&lt;b&gt;You don’t really need it&lt;/b&gt;. You’ve been off for 6 to 8+ hours. Can’t you just save 30 extra minutes
+in which you control “everything”?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I know that phones are extremely addictive and it’s really tempting to check them right after waking up. As a developer working from home for 3 years now, I’m also really aware that it can be tough to disconnect, both from work and from any digital life. Though, just like going outside without your phone, you first discover that it’s completely doable, then refreshing, and finally really enjoyable.&lt;/p&gt;
+
+&lt;p&gt;I have set a few super simple but efficient tricks to prevent this instinctive gesture:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;I use an actual alarm clock, not my iPhone. Because as soon as you have it in hand, you lost!&lt;/li&gt;
+  &lt;li&gt;I set Night Shift on an extended schedule. This way, my falling asleep and awakening times aren’t disturbed.&lt;/li&gt;
+  &lt;li&gt;I disabled almost every possible notifications.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To me, this has been a life changer to enable serene mornings, with enough time for myself and my
+partner. When I finally get hit by a byte, I’m in a relaxed state of mind, ready to see what I missed while I was sleeping.&lt;/p&gt;
+
+&lt;p&gt;What about you? Do you do the same? If no, I’d definitely recommend and would love to get your feedback!&lt;/p&gt;
+</description>
+        <pubDate>Fri, 14 Jun 2019 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Firefox won't execute your body onload code</title>
+        <link>https://bastien.libersa.fr/blog/2019/03/20/firefox-wont-execute-your-body-onload-code.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2019/03/20/firefox-wont-execute-your-body-onload-code.html</guid>
+        <description>&lt;p&gt;A few months ago, I decided to move away from Google Chrome and gave Mozilla Firefox another chance. I’ve been happy with it so far, except for an annoying bug that I encounter all the time and which is the subject of this post. The weird part is I couldn’t find anyone reporting the same bug lately, so it might be due to my configuration (or my inability to use Firefox properly!). I know some &lt;a href=&quot;https://hunter.io&quot;&gt;Hunter&lt;/a&gt; customers encountered it as well. Though, I feel it deserves a post, so I can at least ping &lt;a href=&quot;https://twitter.com/firefox&quot;&gt;@firefox&lt;/a&gt; :)&lt;/p&gt;
+
+&lt;h3&gt;The bug&lt;/h3&gt;
+
+&lt;p&gt;This bug is pretty simple: Firefox won’t execute any JS code in &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;body onload=&quot;XXX&quot;&amp;gt;&lt;/code&gt;. So let’s say you’ve got the following scenario, which is really common in a payment flow (3D Secure, in particular), when you’re being redirected from the merchant to you bank’s site to proceed to the challenge:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;onload=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document.google.submit()&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://www.google.com&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;google&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;q&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello world&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once the body is loaded, the browser is supposed to submit the form named “google”. Every browser will redirect you to &lt;i&gt;https://www.google.com/?q=Hello+world&lt;/i&gt; but &lt;b&gt;Firefox won’t&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Even a single &lt;code class=&quot;highlighter-rouge&quot;&gt;alert&lt;/code&gt; won’t actually be shown on Firefox:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;onload=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alert('Hello world')&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3&gt;The solution (for Web developers)&lt;/h3&gt;
+
+&lt;p&gt;At first, I thought it was affecting only me and was happy to open the Web console to execute manually the function (even thought it didn’t create the best frictionless shopping experience ^^). But once we started to get reports from Hunter customers on Firefox telling that they couldn’t perform their payment, I started to take it more seriously and simply replaced our implementation with:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://www.google.com&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;google&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;q&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello world&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;DOMContentLoaded&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;google&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This does work on all browsers, including Firefox (up to version 66.0).&lt;/p&gt;
+
+&lt;p&gt;So if you’re a Web developer and use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;body onload=&quot;XXX&quot;&amp;gt;&lt;/code&gt; instructions, then I’d definitely recommend you to get rid of them if you want to be on the safe side of things.&lt;/p&gt;
+
+&lt;h3&gt;The solution (for Firefox users)&lt;/h3&gt;
+
+&lt;p&gt;The best fix so far is to run manually the function to be executed through the Web console, but I’m aware it’s not suited for every Firefox user. For this reason, I’m going to report this to the Firefox team, we’ll see if they come up with something.&lt;/p&gt;
+
+&lt;p&gt;Hopefully I’ll have something to add to this post!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Mar 2019 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>Setup a Heroku-like push to production mechanism</title>
+        <link>https://bastien.libersa.fr/blog/2018/08/12/heroku-like-push-to-production.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2018/08/12/heroku-like-push-to-production.html</guid>
+        <description>&lt;p&gt;Heroku is a amazing Platform as a Service that enables you to build and run application in the cloud. It’s often the first choice for deploying an app when you don’t want to focus on something else that the app itself.&lt;/p&gt;
+
+&lt;p&gt;One great feature of Heroku is their “push to production” mechanism, which allows you to trigger deployments from your local environment itself. This removes the need from a CI/CD pipeline but keeps the simplicity and security of an automated deployment workflow. Therefore, this is great for small or side-projects.&lt;/p&gt;
+
+&lt;p&gt;This feature is easy to setup outside of Heroku, on any server with Git installed. Let’s see how to do so!&lt;/p&gt;
+
+&lt;h3&gt;A. On the server side&lt;/h3&gt;
+
+&lt;p&gt;1/ Make sure Git is installed on the server. Else install it 😉&lt;/p&gt;
+
+&lt;p&gt;2/ Create the bare repository on your server (here’s a &lt;a href=&quot;http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/&quot;&gt;great resource&lt;/a&gt; to know more about the difference between work respositories and bare repositories):&lt;/p&gt;
+&lt;pre&gt;
+$ mkdir -p ~/git/app.git
+$ cd ~/git/app.git
+$ git init --bare
+&lt;/pre&gt;
+&lt;p&gt;This is where your code will be pushed to, but that’s not the code your web server will execute. So I recommend to create the repository outside of your web “scope”.&lt;/p&gt;
+
+&lt;p&gt;3/ Create the directory that will contain your app’s code (the one executed by your web server):&lt;/p&gt;
+&lt;pre&gt;
+$ mkdir -p ~/www/app
+&lt;/pre&gt;
+
+&lt;p&gt;4/ Create a &lt;code class=&quot;highlighter-rouge&quot;&gt;post-receive hook&lt;/code&gt;. That is where the real magic of all of it lies! This code will be executed every time you push code to that repository. In this post, we simply want to overwrite all the files in the web server with the ones in the repository, so here is how to handle it:&lt;/p&gt;
+&lt;pre&gt;
+$ nano ~/git/app.git/hooks/post-receive
+
+#!/bin/bash
+
+export GIT_WORK_TREE=/home/bastien/www/app
+git checkout -f
+
+$ chmod +x ~/git/app.git/hooks/post-receive
+&lt;/pre&gt;
+
+&lt;p&gt;Everything’s ready on the server side, let’s wrap everything up on the client side!&lt;/p&gt;
+
+&lt;h3&gt;B. On the client side&lt;/h3&gt;
+
+&lt;p&gt;1/ Add that new bare repository as a remote to your local repository:&lt;/p&gt;
+&lt;pre&gt;
+$ git remote add production
+ssh://bastien@IP/home/bastien/git/app.git
+&lt;/pre&gt;
+
+&lt;p&gt;2/ Specify the ref as well (on your first push only):&lt;/p&gt;
+&lt;pre&gt;
+$ git push production +master:refs/heads/master
+&lt;/pre&gt;
+
+&lt;p&gt;3/ To deploy to production, you now simply need to type:&lt;/p&gt;
+&lt;pre&gt;
+$ git push production
+&lt;/pre&gt;
+
+&lt;p&gt;And all your latest work will be pushed to production automatically. No need for FTP, SSH or any custom deployment trick!&lt;/p&gt;
+
+&lt;h3&gt;C. Conclusion&lt;/h3&gt;
+
+&lt;p&gt;You might need to make advanced operations before deploying a new version of your code: generating assets, restarting the web server, etc. But as our post-receive script is a bash script, that shouldn’t be too hard!&lt;/p&gt;
+
+&lt;p&gt;Happy deployments 😊&lt;/p&gt;
+</description>
+        <pubDate>Sun, 12 Aug 2018 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>How to keep a command running despite closing the SSH connection</title>
+        <link>https://bastien.libersa.fr/blog/2018/06/12/how-to-keep-a-command-running-despite-closing-ssh.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2018/06/12/how-to-keep-a-command-running-despite-closing-ssh.html</guid>
+        <description>&lt;p&gt;I’m sure it happened to you, more than once: you run a command on a remote host, thinking it will finish in a few seconds. Unfortunately, after 5 minutes looking at your terminal and hoping for the command to be done soon, you realize that it will take hours. Obviously, it’s Friday afternoon and you had planned a trip for the weekend.&lt;/p&gt;
+
+&lt;p&gt;There are, I guess, two kind of persons in this situation:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;the first group will most likely SIGINT the command and postpone it to Monday morning;&lt;/li&gt;
+  &lt;li&gt;the second one will try to gracefully handle this situation by letting the command run and enjoying that well-deserved weekend trip.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You better leave here if you feel like you’re a first-group person 😉&lt;/p&gt;
+
+&lt;p&gt;In case you’d like to let the command run even after closing the SSH connection, there is a solution, that I experienced myself recently (on a pg_dump, to be precise):&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Send a &lt;b&gt;SIGTSTP&lt;/b&gt; to the command by typing &lt;b&gt;CTRL+Z&lt;/b&gt; in the terminal running your command. That will put the command in the background, in a “paused” state.&lt;/li&gt;
+  &lt;li&gt;Run the &lt;b&gt;bg&lt;/b&gt; command. This will resume your paused command, and most importantly, will run it in the background. We’re getting close!&lt;/li&gt;
+  &lt;li&gt;Last, run the &lt;b&gt;disown&lt;/b&gt; command. This will remove (or let’s say detach) your command from the shell session.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can now safely &lt;b&gt;exit&lt;/b&gt;, close your laptop and go 🚀!&lt;/p&gt;
+
+&lt;p&gt;Here is a 3-lines summary if you should already been gone:&lt;/p&gt;
+&lt;pre&gt;
+$ CTRL+Z
+$ bg
+$ disown
+&lt;/pre&gt;
+
+&lt;p&gt;Not too hard, right?&lt;/p&gt;
+
+&lt;p&gt;And please, next time, do yourself a favor: use &lt;b&gt;nohup&lt;/b&gt; or &lt;b&gt;screen&lt;/b&gt; before launching any remote command!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 12 Jun 2018 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Why Kubernetes Pod Quality of Service matters</title>
+        <link>https://bastien.libersa.fr/blog/2018/01/02/why-kubernetes-pod-quality-of-service-matters.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2018/01/02/why-kubernetes-pod-quality-of-service-matters.html</guid>
+        <description>&lt;p&gt;I (painfully) discovered a few weeks ago why specifying how much CPU and RAM a container needs was so important on Kubernetes. In this post, I will explain why ;)&lt;/p&gt;
+
+&lt;h3&gt;1. The basis&lt;/h3&gt;
+
+&lt;p&gt;Each container in a Kubernetes pod can specify the following:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;CPU request&lt;/li&gt;
+  &lt;li&gt;Memory request&lt;/li&gt;
+  &lt;li&gt;CPU limit&lt;/li&gt;
+  &lt;li&gt;Memory limit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The sum of all the requests and limits of all the containers in a pod defines the pod requests/limits.&lt;/p&gt;
+
+&lt;p&gt;When a pod is created, the Kubernetes scheduler selects a node which has enough CPU and memory according to the pod requirements (its requests). On the other hand, a container using more CPU or memory than its limits becomes a candidate for termination, and can therefore be terminated at any time.&lt;/p&gt;
+
+&lt;h3&gt;2. The Quality of Service&lt;/h3&gt;
+
+&lt;p&gt;This is where the QoS classes really matter:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;a pod with equal limits and requests set for each container will be classified as &lt;b&gt;Guaranteed&lt;/b&gt;&lt;/li&gt;
+  &lt;li&gt;a pod with different limits and requests set for each container will be classified as &lt;b&gt;Burstable&lt;/b&gt;&lt;/li&gt;
+  &lt;li&gt;a pod without limits and requests set for each container will be classified as &lt;b&gt;Best-Effort&lt;/b&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As you probably guessed it, Guaranteed &amp;gt; Burstable &amp;gt; Best-Effort. A guaranteed pod is garanteed to not be killed until it exceed its limits (or the cluster is under memory pressure and there are no lower priority pods that can be killed). This is definitely what you want for you most important pods.&lt;/p&gt;
+
+&lt;h3&gt;3. What happened in my case&lt;/h3&gt;
+
+&lt;p&gt;At Hunter, we moved from OVH to DigitalOcean, and deployed for this occasion our Kubernetes cluster on instances with fewer RAM than our previous nodes. For this reason, our new cluster was under a constant memory pressure, whereas the old one always had plenty of memory left.&lt;/p&gt;
+
+&lt;p&gt;We had installed Flannel on our brand new cluster using &lt;a href=&quot;https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network&quot; target=&quot;_blank&quot;&gt;the official guide&lt;/a&gt;, that, as you may see, doesn’t set requests and limits for the &lt;a href=&quot;https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml&quot; target=&quot;_blank&quot;&gt;&lt;i&gt;kube-flannel container&lt;/i&gt;&lt;/a&gt;. &lt;b&gt;The result is devastating if you run several pods with requests and limits set.&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;As explained sooner, the &lt;i&gt;kube-flannel-ds&lt;/i&gt; pod will be classified as Best-Effort. For this reason, it will be killed by Kubernetes if needed, making the Kubernetes internal network broken. Pods won’t be able to ping each other, Services won’t be reachable from pods, etc., obviously because the Pod network won’t update the node routing table…&lt;/p&gt;
+
+&lt;p&gt;This had never happened on the old cluster (with the same setup) because it had never been under such a memory pressure.&lt;/p&gt;
+
+&lt;h3&gt;4. How to prevent this&lt;/h3&gt;
+
+&lt;p&gt;You should &lt;b&gt;always&lt;/b&gt; set resources requests and limits to your pods, unless you agree to let Kubernetes kill them if the cluster is under memory pressure.&lt;/p&gt;
+
+&lt;p&gt;You should also spread the word every time you follow a tutorial that do no set requests or limit on containers (even if &lt;a href=&quot;https://github.com/kubernetes/website/issues/6682&quot; target=&quot;_blank&quot;&gt;I haven’t been really successful&lt;/a&gt; for my part ;)).&lt;/p&gt;
+</description>
+        <pubDate>Tue, 02 Jan 2018 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>How to rotate your logs hourly</title>
+        <link>https://bastien.libersa.fr/blog/2017/11/17/how-to-rotate-your-logs-hourly.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2017/11/17/how-to-rotate-your-logs-hourly.html</guid>
+        <description>&lt;p&gt;A common practice with Docker containers is to log everything they output to &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/stdout&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/stderr&lt;/code&gt;. This is perfectly fine for most containers. But with dockerized load-balancers, I can create issues. This is what we recently faced at Hunter.&lt;/p&gt;
+
+&lt;p&gt;On Ubuntu, the default &lt;code class=&quot;highlighter-rouge&quot;&gt;logrotate&lt;/code&gt; behaviour is to rotate files weekly and keep 4 weeks of log. Now imagine a load-balancer serving millions of requests a day? That makes a lot of logs. As a consequence, the first issue we had was that the weekly log rotation was consuming &lt;em&gt;a lot&lt;/em&gt; of CPU, at a point where the load balancer had troubles doing his load-balancing job. Scary. The second one, obviously, was about disk space. Keeping one month of requests, even gzipped, takes a lot of space.&lt;/p&gt;
+
+&lt;p&gt;Hopefully, I came up with a simple and obvious solution that fixed both problems: rotate the logs more often and keep them less long. If you want to do the same, it’s a simple as:&lt;/p&gt;
+
+&lt;p&gt;1/ Create a new logrotate rule for your containers (&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/logrotate.d/containers&lt;/code&gt; for example):&lt;/p&gt;
+
+&lt;pre&gt;
+/var/lib/docker/containers/*/*.log {
+  rotate 24
+  hourly
+  compress
+  size=10M
+  missingok
+  delaycompress
+  copytruncate
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Here we’ll rotate our logs hourly, and will keep only 24 of them. So that means we only keep the logs of the last 24 hours. Feel free to increase this at your convenience.&lt;/p&gt;
+
+&lt;p&gt;2/ Move &lt;code class=&quot;highlighter-rouge&quot;&gt;logrotate&lt;/code&gt; from &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cron.daily&lt;/code&gt; (default location) to &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cron.hourly&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mv /etc/cron.daily/logrotate /etc/cron.hourly/logrotate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, your logs will be rotated on a hourly basis so you won’t even notice the CPU usage increase during the log rotation. And as you’ll keep only a few of them, your disk will be happy :)&lt;/p&gt;
+</description>
+        <pubDate>Fri, 17 Nov 2017 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>One year of remote working</title>
+        <link>https://bastien.libersa.fr/blog/2017/09/15/one-year-of-remote-working.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2017/09/15/one-year-of-remote-working.html</guid>
+        <description>&lt;p&gt;Over a year ago (I can’t believe how fast time flies!), I began working 100% remotely for &lt;a href=&quot;https://hunter.io&quot; target=&quot;_blank&quot;&gt;hunter.io&lt;/a&gt;. This has been my best professionnal decision ever. In this post, I wanted to share a couple of things working remotely has taught me.&lt;/p&gt;
+
+&lt;h3&gt;Motivation&lt;/h3&gt;
+
+&lt;p&gt;Most people don’t understand how I can keep getting motivated working from home where there’s a TV, a fridge, a garden, and my extraordinary partner (who happens to be a freelancer working from home, too). Well, the recipe is simple: as long as you love what you do and you have objectives (or to-dos, deadlines, whatever), then working from anywhere has no importance. On the contrary, working from a place you feel like home makes you more productive, more energic, more focused.&lt;/p&gt;
+
+&lt;p&gt;That reminds of the famous quote:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Choose a job you love, and you will never have to work a day in your life.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;That’s a definitely a cliché, but a true one.&lt;/p&gt;
+
+&lt;p&gt;Not convinced?&lt;/p&gt;
+
+&lt;h3&gt;Social Isolation&lt;/h3&gt;
+
+&lt;p&gt;When I worked in “regular” offices, I used to be that guy that wanted to go home urgently after work. I wanted to meet my partner, know more about the day she had, and have time for a bit of sport and cooking. So I wasn’t really social, I have to admit. At the opposite, working from home makes you want to go out after work! So in the end, I end up going out more than one year ago, which is great for social connections (and bad for my kidneys).&lt;/p&gt;
+
+&lt;p&gt;Also, it makes really eager to see your co-workers. Something that no one feels when you work in the same office as them everyday!&lt;/p&gt;
+
+&lt;h3&gt;Work/life balance&lt;/h3&gt;
+
+&lt;p&gt;Obviously, you’ll always feel attracted to do “a bit” of work at night or during weekends, and you’ll really want to fix ASAP that issue on production, even if it’s Sunday morning. However, I think each passionate developer in startup does, remote or not. But at least, the remote developer has everything set up at home!&lt;/p&gt;
+
+&lt;p&gt;It’s true that the boundary between work and life is tinier since I work remotely. But it also has some very nice aspects! For example, we decided with my partner to spend one week per month out of our city of Grenoble. All of this, without any days off! That would just be impossible with a regular job. Also, travelling on a regular basis makes me really less eager to go on holidays. When I come back from a week of remote working in a new city, I feel like after a week of holidays: loaded back!&lt;/p&gt;
+
+&lt;p&gt;I forgot to mention that working from home makes renting a room on Airbnb really easy. That’s a very nice way to meet new people, too.&lt;/p&gt;
+
+&lt;p&gt;In the end, I’d say that remote working broke the confrontation I had between work and private life. They now mix together, for the best!&lt;/p&gt;
+
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;Remote working is amazing. During the last 12 months, I’ve worked from Lisbon, Athens and Malaga with the Hunter crew (Roma is coming!), and from Nice, Val Thorens, Tours, London and Paris on my own. I feel more motivated and grateful than ever to work for Hunter.io. And lastly, I’ve never been so efficient at work.&lt;/p&gt;
+
+&lt;p&gt;I have so much other advantages in mind, but I’m keeping them for another post ;)&lt;/p&gt;
+
+&lt;p&gt;Now, my “mission” is to make this a reality for more people, especially for developers where this style of working is really appropriate. I’m doing my best to convince sceptical people I meet that it’s the smartest way of working (especially in Grenoble where the traffic jams are a pain for everyone), but there’s still some work to do!&lt;/p&gt;
+
+&lt;p&gt;By the way, I’m really curious to talk with you if you’re against remote working!&lt;/p&gt;
+
+&lt;h3&gt;Pics and proofs&lt;/h3&gt;
+
+&lt;p&gt;Just in case you don’t believe me working outside of an open space works…&lt;/p&gt;
+
+&lt;p&gt;Peer coding in the mountains with the team: nailed it 😎
+&lt;img src=&quot;https://bastien.libersa.fr/blog/img/post/remote-1.jpg&quot; alt=&quot;Hunter crew at work&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Debugging in front of a 🔥: easy
+&lt;img src=&quot;https://bastien.libersa.fr/blog/img/post/remote-2.jpg&quot; alt=&quot;Debugging in front of a chimney&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Your turn?&lt;/p&gt;
+</description>
+        <pubDate>Fri, 15 Sep 2017 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Manage your Kubernetes deployments with the Kube API</title>
+        <link>https://bastien.libersa.fr/blog/2017/04/03/manage-kubernetes-with-api.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2017/04/03/manage-kubernetes-with-api.html</guid>
+        <description>&lt;p&gt;At &lt;a href=&quot;https://hunter.io&quot;&gt;Hunter&lt;/a&gt;, we recently decided to move parts of our containers management from Cloud66 to Kubernetes. We wanted to have more control over the resources requested by our apps, and also speed up the deployment process which was really slow at C66.&lt;/p&gt;
+
+&lt;p&gt;Kubernetes comes with a great CLI called &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; to manage and run commands into your cluster. Thing is, it’s not really convenient to install and use it inside build machines such as a CircleCI machine. &lt;a href=&quot;https://github.com/kubernetes/contrib/tree/master/continuousdelivery&quot;&gt;Some scripts&lt;/a&gt; have been created by the community to help you but my own experience shows that’s not a really smooth solution. And things get worse if you want to make a guy such as &lt;a href=&quot;https://hubot.github.com/&quot;&gt;Hubot&lt;/a&gt; (Node.js-based bot built by GitHub) manage your deployments.&lt;/p&gt;
+
+&lt;p&gt;Under the hood, &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; uses the Kubernetes API so why not use it directly through plain HTTP calls? This is what I’ll be presenting in this article, to accomplish two tasks: update your apps to a newer version and scale your apps.&lt;/p&gt;
+
+&lt;h3&gt;1. Authentication&lt;/h3&gt;
+
+&lt;p&gt;The first step there is to create a service account (let’s call it &lt;i&gt;hubot&lt;/i&gt; for the rest of the article) that we’ll use to talk to the Kubernetes API:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create serviceaccount hubot
+serviceaccount &quot;hubot&quot; created​
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;pre&gt;
+$ kubectl get serviceaccounts hubot -o yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  ...
+secrets:
+- name: &lt;b&gt;hubot-token-abcd&lt;/b&gt;
+&lt;/pre&gt;
+
+&lt;pre&gt;
+$ kubectl get secret hubot-token-abcd -o yaml
+apiVersion: v1
+data:
+  ca.crt: &lt;b&gt;base64-encoded certificate&lt;/b&gt;
+  token: &lt;b&gt;base64-encoded bearer token&lt;/b&gt;
+  kind: Secret
+metadata:
+...
+&lt;/pre&gt;
+
+&lt;p&gt;With the certificate and the token, we’ve got everything we need to talk to the Kubernetes API so let’s continue!&lt;/p&gt;
+
+&lt;h3&gt;2. Your first request&lt;/h3&gt;
+&lt;p&gt;To make sure we’re fine, let’s try to make our first request to the Kubernetes API: listing all the nodes of your cluster.&lt;/p&gt;
+
+&lt;p&gt;Un-decode the certificate and the bearer token, and save them in two separate files on your  filesystem (called &lt;code class=&quot;highlighter-rouge&quot;&gt;ca.crt&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;token&lt;/code&gt; in my examples). Then, execute:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl --cacert ca.crt -H &quot;Authorization: Bearer $(cat token)&quot; \
+https://{YOUR_KUBE_MASTER_IP}/api/v1/nodes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If everything’s ok, you should receive a response from the Kubernetes API listing all the nodes from your cluster:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;kind&quot;: &quot;NodeList&quot;,
+  &quot;apiVersion&quot;: &quot;v1&quot;,
+  &quot;items&quot;: [
+    ...
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The hardest part if behind us!&lt;/p&gt;
+
+&lt;h3&gt;3. Updating your deployments to a newer version&lt;/h3&gt;
+
+&lt;p&gt;Now, we would like to be able to update our deployments (see &lt;a href=&quot;https://kubernetes.io/docs/concepts/workloads/controllers/deployment/&quot;&gt;Deployments&lt;/a&gt; in case you’re not familiar with this concept). Basically a deployment is just a set of resources to be managed by Kubernetes.&lt;/p&gt;
+
+&lt;p&gt;Let’s pretend we have a deployment called &lt;code class=&quot;highlighter-rouge&quot;&gt;my-app&lt;/code&gt;, containing a simple container based on image &lt;code class=&quot;highlighter-rouge&quot;&gt;docker.io/bastien/my-container:1&lt;/code&gt;. You updated &lt;code class=&quot;highlighter-rouge&quot;&gt;my-container&lt;/code&gt;, and would like the new version to get deployed to all the pods managed through &lt;code class=&quot;highlighter-rouge&quot;&gt;my-app&lt;/code&gt;. Easy!&lt;/p&gt;
+
+&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt;, you would normally do:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl set image deployment/my-app my-container=my-container:2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With cURL, this is (almost) as simple:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-`&quot;&gt;curl --cacert ca.crt -H &quot;Authorization: Bearer $(cat token)&quot; \
+-H &quot;Content-Type: application/json-patch+json&quot; -X PATCH \
+-d '[{ \
+    &quot;op&quot;:&quot;replace&quot;, \
+    &quot;path&quot;:&quot;/spec/template/spec/containers/0/image&quot;, \
+    &quot;value&quot;: &quot;docker.io/bastien/my-container:2&quot; \
+  }]' \
+https://{YOUR_KUBE_MASTER_IP}/apis/extensions/v1beta1/namespaces/default/deployments/my-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Basically, we’re sending a PATCH request to our deployment endpoint, with a BODY containing the patch definition (a &lt;code class=&quot;highlighter-rouge&quot;&gt;replace&lt;/code&gt; operation on the provided &lt;code class=&quot;highlighter-rouge&quot;&gt;path&lt;/code&gt; with the new &lt;code class=&quot;highlighter-rouge&quot;&gt;my-container:2&lt;/code&gt; value), with the appropriate Content-Type. That’s it!&lt;/p&gt;
+
+&lt;h3&gt;4. Scale your deployments&lt;/h3&gt;
+
+&lt;p&gt;Imagine you’re under an heavy load and want to scale up your deployment with more replicas? Then you just need one HTTP call, that will do the same thing as:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl scale deployment nginx-deployment --replicas 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With cURL, this is what you have to do:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl --cacert ca.crt -H &quot;Authorization: Bearer $(cat token)&quot; \
+-H &quot;Content-Type: application/json-patch+json&quot; -X PATCH \
+-d '[{ \
+    &quot;op&quot;:&quot;replace&quot;, \
+    &quot;path&quot;:&quot;/spec/replicas&quot;, \
+    &quot;value&quot;: &quot;2&quot; \
+  }]' \
+https://{YOUR_KUBE_MASTER_IP}/apis/extensions/v1beta1/namespaces/default/deployments/my-app
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I think you got it, we just patched our deployment with a new definition for the &lt;code class=&quot;highlighter-rouge&quot;&gt;spec/replicas&lt;/code&gt; path, with a new value of 2.&lt;/p&gt;
+
+&lt;h3&gt;5. Conclusion&lt;/h3&gt;
+
+&lt;p&gt;These two examples show how to communicate with the Kubernetes API to manage your deployments, but of course you can manage any Kubernetes resource through the API!&lt;/p&gt;
+
+&lt;p&gt;At Hunter, we manage our deployments from CircleCI and Hubot, with plain API calls, without needing to install &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; ✌️&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;mailto:bastien.libersa@gmail.com&quot;&gt;Let me know&lt;/a&gt; if you have any question or feedback!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 03 Apr 2017 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Bug Bounty Program</title>
+        <link>https://bastien.libersa.fr/blog/2016/12/16/bug-bounty-program.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2016/12/16/bug-bounty-program.html</guid>
+        <description>&lt;p&gt;These are the slides of a talk I gave for the december 2016 Grenoble Human Talks.&lt;/p&gt;
+
+&lt;p&gt;The aim of this talk was to present the ideas behind bug bounty programs, and to
+present the results we get with the program we set at Hunter.io.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Disclaimer:&lt;/em&gt; We were really satisfied with the results!&lt;/p&gt;
+
+&lt;div class=&quot;embed-container&quot;&gt;
+	&lt;iframe src=&quot;https://fr.slideshare.net/slideshow/embed_code/key/Dyt7N2K9dGFyFH&quot; width=&quot;595&quot; height=&quot;485&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;&quot; allowfullscreen=&quot;&quot;&gt; &lt;/iframe&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 16 Dec 2016 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>Zero-downtime deployments with Docker</title>
+        <link>https://bastien.libersa.fr/blog/2016/10/13/zero-downtime-deployments-with-docker.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2016/10/13/zero-downtime-deployments-with-docker.html</guid>
+        <description>&lt;p&gt;Docker became in a couple of years the DevOps’ new best friend. The goal of this article is not to present the multiple benefits of Docker, but rather to talk about an use case where Docker can really be useful: Zero-downtime deployments. In other words, the ability to update your online dockerized service (an app, a website, etc.) without any downtime.&lt;/p&gt;
+
+&lt;p&gt;To do so, we need at least two containers running our service (we’ll call them &lt;i&gt;app&lt;/i&gt;) and one container running our load balancer (we’ll call him &lt;i&gt;lb&lt;/i&gt;). The &lt;a href=&quot;https://github.com/docker/dockercloud-haproxy&quot;&gt;dockercloud/haproxy&lt;/a&gt; image is a great candidate for the load balancing part, as it embeds HAProxy and some useful commands to scale up and down our app containers. For the app, we’ll simply use the &lt;a href=&quot;https://github.com/docker/dockercloud-hello-world&quot;&gt;dockercloud/hello-world&lt;/a&gt; image.&lt;/p&gt;
+
+&lt;p&gt;Basically, our &lt;a href=&quot;https://github.com/BastienL/zero-downtime-deployment-with-docker/blob/master/docker-compose.yml&quot;&gt;docker-compose.yml&lt;/a&gt; file will be:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;2'&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;dockercloud/hello-world&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;lb&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;dockercloud/haproxy&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;links&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;app&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/var/run/docker.sock:/var/run/docker.sock&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;80:80&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;1936:1936&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;NB: we exposed port 1936 to have access to the HAProxy stats. You should remove it once in production.&lt;/p&gt;
+
+&lt;p&gt;Run the service (&lt;i&gt;docker-compose up -d&lt;/i&gt;) and browse to &lt;i&gt;http://127.0.0.1&lt;/i&gt;. Your service should be working!&lt;/p&gt;
+
+&lt;p&gt;Now, we are going to make use of a really useful command given by the dockercloud/haproxy image: &lt;b&gt;docker-compose scale&lt;/b&gt;. This command creates new containers and automatically connects them to HAProxy. Great!&lt;/p&gt;
+
+&lt;p&gt;To try it, just type &lt;i&gt;docker-compose scale app=2&lt;/i&gt; and see the magic happens! Now the load balancer must balance your visitors to one of the two running “app” containers (go to &lt;i&gt;http://127.0.0.1:1936&lt;/i&gt; - user: stats, password: stats - if you want to make sure).&lt;/p&gt;
+
+&lt;p&gt;So basically, we could imagine that to update our app, we could simply scale up our app, as the new containers based on the new image will be created and connected to HAProxy and then scale it down to remove the old ones. Unfortunately, &lt;i&gt;docker-compose scale&lt;/i&gt; does the opposite: it will remove the new ones and keep the old ones. Bummer!&lt;/p&gt;
+
+&lt;p&gt;To fix this, I created a simple &lt;a href=&quot;https://github.com/BastienL/zero-downtime-deployment-with-docker/blob/master/deploy.sh&quot;&gt;bash script&lt;/a&gt; that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Builds the new app image&lt;/li&gt;
+&lt;li&gt;Scales up your app with new containers based on the new image&lt;/li&gt;
+&lt;li&gt;Sleeps (waiting for your app containers to be ready to accept connections)&lt;/li&gt;
+&lt;li&gt;Removes all the &quot;old&quot; app containers&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;To use it, just update the constants at the beginning of the file and run it. Now you don’t have any downtime anymore during your deployments. Enjoy :)&lt;/p&gt;
+
+&lt;p&gt;If you want to give it a try, you can get the sources on my &lt;a href=&quot;https://github.com/BastienL/zero-downtime-deployment-with-docker&quot;&gt;repository&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;small&gt;PS: I’m aware some parts could be improved (using a health-check instead of a sleep for example), but I think this script is a good start. Let me know if you updated or improved it!&lt;/small&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 13 Oct 2016 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Resources to find a remote job</title>
+        <link>https://bastien.libersa.fr/blog/2016/08/30/find-remote-job.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2016/08/30/find-remote-job.html</guid>
+        <description>&lt;p&gt;A few months ago, I decided to quit my job at Citizen Republic to get a new position. I had many reasons to change, but one of the most important was I really wanted to know what it was like to work remotely. I don’t mean working from home time-to-time for convenience, but really work for a company where offices and face-to-face meetings do not exist.&lt;/p&gt;
+
+&lt;p&gt;I think the folks at &lt;a href=&quot;https://37signals.com/remote&quot; target=&quot;_blank&quot;&gt;37 Signals&lt;/a&gt; really convinced me ;)&lt;/p&gt;
+
+&lt;p&gt;The fact is, in France, remote working is not so frequent, and traditional job boards French developers usually use (RemixJobs and AzertyJobs ahead) do not offer a “remote” criteria. So I just wanted to share this list of job boards referencing open remote positions or at least a “remote” criteria. They have helped me a lot during my search:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href=&quot;https://weworkremotely.com&quot; target=&quot;_blank&quot;&gt;We Work Remotely&lt;/a&gt;, supported by Jason Fried and his crew&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;http://jobs.remotive.io&quot; target=&quot;_blank&quot;&gt;Remotive&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://remoteok.io/remote-jobs&quot; target=&quot;_blank&quot;&gt;Remote|ok&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://angel.co&quot; target=&quot;_blank&quot;&gt;Angel List&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;http://www.jobsintech.io&quot; target=&quot;_blank&quot;&gt;Jobs In Tech&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;http://www.workingnomads.co/jobs&quot; target=&quot;_blank&quot;&gt;Working Nomads&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/jobs&quot; target=&quot;_blank&quot;&gt;StackOverflow | Jobs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You should also definitely have a look at &lt;a href=&quot;https://github.com/lukasz-madon/awesome-remote-job&quot; target=&quot;_blank&quot;&gt;Awesome Remote Job&lt;/a&gt;, a GitHub repo curating a lot of resources about remote jobs.&lt;/p&gt;
+
+&lt;p&gt;Needless to say, my preference goes to We Work Remotely as this is where I finally found my current (remote, of course) position at &lt;a href=&quot;https://emailhunter.co&quot; target=&quot;_blank&quot;&gt;EmailHunter.co&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A BIG thank you to the guys behind each of this websites, you really made my life better!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 30 Aug 2016 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Export your PrestaShop orders without module</title>
+        <link>https://bastien.libersa.fr/blog/2016/04/08/export-prestashop-orders.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2016/04/08/export-prestashop-orders.html</guid>
+        <description>&lt;p&gt;With a default install of PrestaShop (any version), you cannot export all your orders and clients data to a file. You can either export your orders (but do not have any reference about the client) or your clients (but can’t see his orders). That sounds a bit crazy but this is the choice they made.&lt;/p&gt;
+
+&lt;p&gt;But what if you want to send an email to your last 100 clients?&lt;/p&gt;
+
+&lt;p&gt;The only solutions are (were ^^):&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Install a paid module (such as &lt;a href=&quot;http://addons.prestashop.com/fr/17596-orders-csv-excel-export.html&quot; target=&quot;_blank&quot;&gt;http://addons.prestashop.com/fr/17596-orders-csv-excel-export.html&lt;/a&gt;)&lt;/li&gt;
+	&lt;li&gt;Develop your own module&lt;/li&gt;
+	&lt;li&gt;Make it manually&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you do not want to pay or don’t have time or skills to create your own module, then there is another solution: use a plain-old SQL query :)&lt;/p&gt;
+
+&lt;p&gt;Just open your MySQL client (such as PHPMyAdmin, MySQL Workbench or whatever) and open your PrestaShop database.&lt;/p&gt;
+
+&lt;p&gt;Then execute the following query:&lt;/p&gt;
+
+&lt;p&gt;​&lt;code class=&quot;highlighter-rouge&quot;&gt;​&lt;/code&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT o.id_order, o.id_customer, o.date_add, c.firstname, c.lastname, c.email FROM ps_orders o LEFT JOIN ps_customer c ON o.id_customer = c.id_customer WHERE o.current_state = 5 ORDER BY o.date_add DESC&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I know this is a simple one, but I saw so much clients being stuck to export their clients list ​that I thought it was a good idea to share it.&lt;/p&gt;
+
+&lt;p&gt;You can now easily export the result!&lt;/p&gt;
+
+&lt;p&gt;PS: This query only returns the delivered orders. If you want to get all orders or use another filter, you can do so using the table on this page: &lt;a href=&quot;http://doc.prestashop.com/display/PS16/Statuses&quot; target=&quot;_blank&quot;&gt;http://doc.prestashop.com/display/PS16/Statuses&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 08 Apr 2016 00:00:00 +0200</pubDate>
+      </item>
+    
+      <item>
+        <title>Improve your email deliverability</title>
+        <link>https://bastien.libersa.fr/blog/2016/03/04/improve-email-deliverability.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2016/03/04/improve-email-deliverability.html</guid>
+        <description>&lt;p&gt;These are the slides of a talk I gave for the march 2016 Grenoble Human Talks.&lt;/p&gt;
+
+&lt;p&gt;The aim of this talk was to present a few good practices and hints to improve the deliverability of the emails you send.&lt;/p&gt;
+
+&lt;p&gt;Most of them are just common sense but used all together they can make you safe about your sender reputation!&lt;/p&gt;
+
+&lt;div class=&quot;embed-container&quot;&gt;
+	&lt;iframe src=&quot;//www.slideshare.net/slideshow/embed_code/key/32hnY7RXJdlZ2L&quot; width=&quot;595&quot; height=&quot;485&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;&quot; allowfullscreen=&quot;&quot;&gt; &lt;/iframe&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 04 Mar 2016 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>Introduction to AWS</title>
+        <link>https://bastien.libersa.fr/blog/2016/03/03/introduction-to-aws.html</link>
+        <guid isPermaLink="true">https://bastien.libersa.fr/blog/2016/03/03/introduction-to-aws.html</guid>
+        <description>&lt;p&gt;These are the slides of a talk I gave for the october 2015 Grenoble Human Talks.&lt;/p&gt;
+
+&lt;p&gt;The aim of this talk was to answer to very simple questions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;what is Amazon Web Services ?&lt;/li&gt;
+  &lt;li&gt;what can I do with it?&lt;/li&gt;
+  &lt;li&gt;how can I use it?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The slides were applied to a real-life business case: the hosting of &lt;a href=&quot;https://www.monaviscompte.fr&quot; target=&quot;_blank&quot;&gt;monaviscompte.fr&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Sorry, but they are in French!&lt;/p&gt;
+
+&lt;div class=&quot;embed-container&quot;&gt;
+	&lt;iframe src=&quot;https://fr.slideshare.net/slideshow/embed_code/key/aLk9cWTswBDjZL&quot; width=&quot;595&quot; height=&quot;485&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;&quot; allowfullscreen=&quot;&quot;&gt; &lt;/iframe&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 03 Mar 2016 00:00:00 +0100</pubDate>
+      </item>
+    
+  </channel>
+</rss>
